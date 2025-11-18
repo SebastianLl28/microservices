@@ -90,6 +90,7 @@ POST /auth/register
 POST /api/matricula/assign
 POST /api/matricula/unassign
 GET  /api/matricula/courses
+...
 
 ````
 
@@ -102,21 +103,45 @@ El proyecto ya incluye un `docker-compose.yml` con toda la infraestructura y mic
 ### 1. Clonar el repositorio
 ```bash
 git clone https://github.com/tuproject/microservices-matricula.git
-cd microservices-matricula
+cd microservices
 ````
 
 ### 2. Configurar variables de entorno
 
-Editar el archivo `.env`:
+Crear el archivo `.env`:
 
 ```env
+#example
 DB_USER=postgres
 DB_PASSWORD=postgres
-JWT_SECRET=mySecretKeyForJWT2024SuperSecure
-SPRING_PROFILES_ACTIVE=docker
+MATRICULA_DB_NAME=matricula_db
+AUTH_DB_NAME=auth_db
+
+# ==================== RABBITMQ ====================
 RABBITMQ_USER=rabbituser
 RABBITMQ_PASS=rabbitpass
+RABBITMQ_PORT=15672
+
+# ==================== KAFKA ====================
 KAFKA_PORT=9092
+
+# ==================== PUERTOS DE SERVICIOS ====================
+MATRICULA_SERVICE_PORT=8000
+AUTH_SERVICE_PORT=8001
+
+# ==================== JWT CONFIGURATION ====================
+JWT_SECRET=
+JWT_EXPIRATION=86400000
+
+# ==================== EMAIL CONFIGURATION ====================
+# Configuración para el notification-service
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=
+MAIL_PASSWORD=
+
+SPRING_PROFILES_ACTIVE=docker
+
 ```
 
 ### 3. Construir los servicios
