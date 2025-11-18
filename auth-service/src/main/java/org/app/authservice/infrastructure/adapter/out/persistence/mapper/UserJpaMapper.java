@@ -12,12 +12,15 @@ public class UserJpaMapper {
   
   public UserJpaEntity toEntity(User user) {
     return new UserJpaEntity(
-        user.getUsername(),
-        user.getPassword()
+      user.getUsername(),
+      user.getPassword(),
+      user.getFullName(),
+      user.getEmail()
     );
   }
   
   public User toDomain(UserJpaEntity userJpaEntity) {
-    return User.rehydrate(userJpaEntity.getUsername(), userJpaEntity.getPassword());
+    return User.rehydrate(userJpaEntity.getUsername(), userJpaEntity.getPassword(),
+      userJpaEntity.getFullName(), userJpaEntity.getEmail());
   }
 }

@@ -5,7 +5,9 @@ package org.app.authservice.application.dto.command;
  */
 public record RegisterCommand(
     String username,
-    String password
+    String password,
+    String email,
+    String fullName
 ) {
 
 }

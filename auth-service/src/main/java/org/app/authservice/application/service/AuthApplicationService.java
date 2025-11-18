@@ -8,6 +8,7 @@ import org.app.authservice.application.mapper.UserMapper;
 import org.app.authservice.application.port.in.AuthUseCase;
 import org.app.authservice.application.port.in.RegisterUseCase;
 import org.app.authservice.application.port.in.TokenUseCase;
+import org.app.authservice.application.port.out.UserEventPublisherPort;
 import org.app.authservice.domain.exception.InvalidCredentialsException;
 import org.app.authservice.domain.exception.UserAlreadyExistsException;
 import org.app.authservice.domain.model.User;
@@ -35,6 +36,10 @@ public class AuthApplicationService implements AuthUseCase, RegisterUseCase, Tok
   @Autowired
   private UserMapper userMapper;
   
+  @Autowired
+  private UserEventPublisherPort eventPublisher;
+  
+  
   @Override
   public LoginResponse handle(LoginCommand command) {
     User user = userRepository.findByUsername(command.username())
@@ -59,10 +64,14 @@ public class AuthApplicationService implements AuthUseCase, RegisterUseCase, Tok
     
     User newUser = User.create(
       command.username(),
-      hashedPassword
+      hashedPassword,
+      command.fullName(),
+      command.email()
     );
     
     User savedUser = userRepository.save(newUser);
+    
+    eventPublisher.publishUserRegistered(savedUser);
     
     return userMapper.toRegisterResponse(savedUser);
   }

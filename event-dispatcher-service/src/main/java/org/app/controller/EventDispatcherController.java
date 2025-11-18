@@ -82,6 +82,21 @@ public class EventDispatcherController {
     }
   }
   
+//  auth
+//  @PostMapping("/publish/auth")
+//  public ResponseEntity<Map<String, Object>> publishAuthEvent(@RequestBody GenericEventDTO event) {
+//    try {
+//      logger.info("Recibido evento de auth: {}", event.getEventType());
+//      eventPublisherService.publishAuthEvent(event);
+//      return ResponseEntity.ok(createResponse(true, "Evento de auth publicado", event.getEventType()));
+//    } catch (Exception e) {
+//      logger.error("Error: {}", e.getMessage());
+//      return ResponseEntity
+//        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//        .body(createResponse(false, e.getMessage(), null));
+//    }
+//  }
+//
   @GetMapping("/health")
   public ResponseEntity<Map<String, Object>> health() {
     Map<String, Object> response = new HashMap<>();

@@ -115,4 +115,11 @@ public class EventPublisherService {
     kafkaPublisherService.publishEvent(event);
     publishToAudit(event);
   }
+  
+  public void publishAuthEvent(GenericEventDTO event) {
+    logger.info("🔐 Publicando evento de auth: {}", event.getEventType());
+    event.prepareForPublishing();
+    rabbitTemplate.convertAndSend(exchangeName, auditRoutingKey, event);
+    publishToAudit(event);
+  }
 }
