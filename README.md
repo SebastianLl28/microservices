@@ -102,7 +102,7 @@ El proyecto ya incluye un `docker-compose.yml` con toda la infraestructura y mic
 
 ### 1. Clonar el repositorio
 ```bash
-git clone [https://github.com/tuproject/microservices-matricula.git](https://github.com/SebastianLl28/microservices/tree/master)
+git clone https://github.com/SebastianLl28/microservices/tree/master
 cd microservices
 ````
 
