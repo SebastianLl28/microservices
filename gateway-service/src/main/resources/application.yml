@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: auth-service-route
+              uri: ${AUTH_SERVICE_URL:http://localhost:8001}
+              predicates:
+                - Path=/auth/**
+              filters:
+                - AuthenticationFilter
+
+            - id: matricula-service-route
+
+              uri: ${MATRICULA_SERVICE_URL:http://localhost:8000}
+              predicates:
+                - Path=/api/**
+              filters:
+                - AuthenticationFilter
+
+            - id: event-dispatcher-route
+              uri: http://event-dispatcher-service:8082
+              predicates:
+                - Path=/events/**
+              filters:
+                - RewritePath=/events/(?<segment>.*), /api/events/${segment}

@@ -1,0 +1,46 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: event-dispatcher-service
+
+  # Configuración RabbitMQ
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:rabbituser}
+    password: ${SPRING_RABBITMQ_PASSWORD:rabbitpass}
+    listener:
+      simple:
+        acknowledge-mode: auto
+        retry:
+          enabled: true
+          initial-interval: 3000
+          max-attempts: 3
+          multiplier: 2
+
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+app:
+  rabbitmq:
+    exchange: events.exchange
+    queue:
+      notifications: notifications.queue
+      audit: audit.queue
+    routing-key:
+      user: event.user.*
+      matricula: event.matricula.*
+      audit: event.audit.*
+
+logging:
+  level:
+    root: INFO
+    org.app.eventdispatcher: DEBUG
+    org.springframework.amqp: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
