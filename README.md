@@ -130,6 +130,7 @@ MATRICULA_SERVICE_PORT=8000
 AUTH_SERVICE_PORT=8001
 
 # ==================== JWT CONFIGURATION ====================
+# WARNING: should be at least 32 characters long for security reasons
 JWT_SECRET=
 JWT_EXPIRATION=86400000
 
